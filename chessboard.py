@@ -51,17 +51,16 @@ def main():
                 mouse_location = p.mouse.get_pos()
                 col = mouse_location[0] // SQ_Size
                 row = mouse_location[1] // SQ_Size
+            
                 if sqSelected == (row, col):
                      sqSelected = ()
                      move_positions = []
-                     print("first if")
                 else: 
                      sqSelected = (row, col)
                      move_positions.append(sqSelected)
-                     print("Else")
                      if len(move_positions) == 2:
-                        move = chessmain.Move(move_positions[0], move_positions[1], gs.board)
-                        move.movepiece(gs.board)
+                        move = chessmain.Move(move_positions[0], move_positions[1], gs)
+                        move.movepiece()
                         sqSelected = ()
                         move_positions = []
         drawGameState(screen, gs)
