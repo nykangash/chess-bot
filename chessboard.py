@@ -77,7 +77,7 @@ def main():
         main game function
 
     '''
-    
+
     
     screen = p.display.set_mode((width, height))
     clock = p.time.Clock()                          # nothing special => default pygame command to setup display screen
@@ -109,7 +109,7 @@ def main():
                 if sqSelected == (row, col):
                      sqSelected = ()
                      move_positions = []
-    
+            
                 else: 
                      sqSelected = (row, col)
                      move_positions.append(sqSelected)
@@ -119,7 +119,11 @@ def main():
                         move.movepiece()
                         sqSelected = ()
                         move_positions = []
-
+            elif e.type == p.KEYDOWN:
+                if e.key == p.K_LEFT:
+                    gs.undo_move()
+                elif e.key == p.K_RIGHT:
+                    gs.do_move()
         drawGameState(screen, gs)
     
         p.display.flip()
