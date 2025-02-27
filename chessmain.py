@@ -98,7 +98,7 @@ class Move:
 
     def movepiece(self):
         
-        if self.gamestate_instance.board[self.starting_row][self.starting_col] != "--": 
+        if self.gamestate_instance.board[self.starting_row][self.starting_col] != "--" and len(self.gamestate_instance.moves_cp) == 0: 
             
             self.logmoves()
             self.gamestate_instance.board[self.ending_row][self.ending_col] = self.piecemove
