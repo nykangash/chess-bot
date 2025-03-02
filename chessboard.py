@@ -85,7 +85,7 @@ def main():
     
     gs = chessmain.Gamestate()  #   create a instace for the game we want to play to have attribute and methods so  
                                 #   we use them in game
-                                #   and it gives us ability to implement more features
+                                #   it gives us ability to implement more features
     
     imageload() 
     
@@ -116,14 +116,16 @@ def main():
     
                      if len(move_positions) == 2:
                         move = chessmain.Move(move_positions[0], move_positions[1], gs)
-                        move.movepiece()
+                        gs.movepiece(move)
                         sqSelected = ()
                         move_positions = []
             elif e.type == p.KEYDOWN:
-                if e.key == p.K_LEFT:
-                    gs.undo_move()
+                if e.key == p.K_LEFT:    
+                                            #   TODO :      HERE THE move OBJ THAT WE PASS TO THE undo_move() & do_move() HAS A "is possibly unbound" WARNING.
+                                            #               CHECK IT OUT AND FIX IT IF POSSIBLE...
+                    gs.undo_move(move)
                 elif e.key == p.K_RIGHT:
-                    gs.do_move()
+                    gs.do_move(move)
         drawGameState(screen, gs)
     
         p.display.flip()
