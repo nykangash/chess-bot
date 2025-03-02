@@ -56,7 +56,7 @@ class Gamestate:
         if len(self.moves_cp) > 0:
             self.moves_cp = []
 
-        if self.board[move.starting_row][move.starting_col] != "--": 
+        if self.board[move.starting_row][move.starting_col] != "--" and (move.ending_row, move.ending_col) in move.whiteLegalMoves: 
             if self.whitetomove and self.board[move.starting_row][move.starting_col][0] == "w":
     
                 move.logmoves()
@@ -140,9 +140,74 @@ class Move:
         self.ending_col = ending_sq[1]
         self.peiceMoved = self.gamestate_instance.board[self.starting_row][self.starting_col]
         self.peiceCaptured = self.gamestate_instance.board[self.ending_row][self.ending_col]
-
+        self.whiteLegalMoves = []
 
     def logmoves(self):
         
         main_move = (notation_col[self.starting_col]+notation_row[self.starting_row], notation_col[self.ending_col]+ notation_row[self.ending_row ], self.peiceMoved, self.peiceCaptured )
         self.gamestate_instance.movelog.append(main_move)
+    
+    
+    def pawnLegalMoves(self, starting_row, starting_col):
+        '''
+            function to calculate all pawn peices legal moves
+        
+        
+            TODO:       THINK ABOUT OPTM 
+            
+        
+        '''
+        
+        legals = []
+        
+        if starting_row == 6 and self.gamestate_instance.board[starting_row-1][starting_col] == "--":
+        
+            if  self.gamestate_instance.board[starting_row-2][starting_col] == "--":
+                legals.append((starting_row-1, starting_col))  
+                legals.append((starting_row-2, starting_col))
+
+            legals.append((starting_row-1, starting_col))  
+            
+        elif self.gamestate_instance.board[starting_row-1][starting_col] == "--":
+            legals.append((starting_row-1, starting_col))  
+    
+        
+        if self.gamestate_instance.board[starting_row-1][starting_col-1] != "--" and self.gamestate_instance.board[starting_row-1][starting_col-1][1] != "K":
+                
+                legals.append((starting_row+1, starting_col+1))  
+                            
+        if self.gamestate_instance.board[starting_row-1][starting_col+1] != "--" and self.gamestate_instance.board[starting_row+1][starting_col-1][1] != "K":
+        
+            legals.append((starting_row+1, starting_col-1))  
+
+        
+        
+        return legals
+            
+    def white_legal_moves(self):
+        '''
+            function to calculate all white peices legal moves
+        
+        
+            TODO:       IMPLEMENT OTHER CASES
+            
+        
+        '''
+        
+        for i in self.gamestate_instance.board:
+            for j in i:
+                if j[0] == "w":    
+                    match j[1]:
+                        case "P":
+                            self.whiteLegalMoves.extend(self.pawnLegalMoves(self.starting_row, self.starting_col))
+                        case "K":
+                            pass
+                        case "N":
+                            pass
+                        case "Q":
+                            pass
+                        case "B":
+                            pass 
+                        case "R":
+                            pass
+                    

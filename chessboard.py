@@ -105,7 +105,7 @@ def main():
                 mouse_location = p.mouse.get_pos()
                 col = mouse_location[0] // SQ_Size
                 row = mouse_location[1] // SQ_Size
-            
+                print(row, '   ', col)
                 if sqSelected == (row, col):
                      sqSelected = ()
                      move_positions = []
@@ -116,6 +116,7 @@ def main():
     
                      if len(move_positions) == 2:
                         move = chessmain.Move(move_positions[0], move_positions[1], gs)
+                        move.white_legal_moves()
                         gs.movepiece(move)
                         sqSelected = ()
                         move_positions = []
